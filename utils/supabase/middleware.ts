@@ -6,6 +6,21 @@ export async function updateSession(request: NextRequest) {
     request,
   })
 
+  const path = request.nextUrl.pathname
+
+  // Jangan intersep aset PWA dan static
+  if (
+    path === '/sw.js' ||
+    path === '/manifest.webmanifest' ||
+    path.startsWith('/icons/') ||
+    path.endsWith('.webmanifest') ||
+    path.endsWith('.png') ||
+    path.endsWith('.svg') ||
+    path.endsWith('.ico')
+  ) {
+    return supabaseResponse
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 
@@ -31,7 +46,6 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const path = request.nextUrl.pathname
   const isAuthPage = path.startsWith('/login') || path.startsWith('/signup')
   const isAuthCallback = path.startsWith('/auth/')
 

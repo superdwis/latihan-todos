@@ -12,6 +12,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Todo List App - Next.js & Supabase",
   description: "A modern todo list application powered by Next.js and Supabase Auth",
+  manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
