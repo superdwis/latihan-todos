@@ -18,6 +18,15 @@ Aplikasi Todo List modern dan responsif yang dibangun menggunakan **Next.js 16 (
     - Checklist toggle selesai / belum selesai
     - Edit judul tugas secara inline (ikon pensil atau klik simpan/Enter)
   - **Delete**: Hapus tugas dengan konfirmasi dialog
+- 🖼️ **Lampiran Gambar (Supabase Storage)**:
+  - Lampirkan gambar ke todo (format PNG, JPG, WEBP, dll.)
+  - Pratinjau thumbnail instan sebelum dan sesudah diunggah
+  - Lightbox modal interaktif untuk melihat gambar dalam ukuran penuh
+  - Disimpan langsung di Supabase Storage bucket `todo-images` dengan isolasi folder user
+- 🌙 **Dukungan Dark Mode Penuh**:
+  - Tombol toggle Sun / Moon dengan transisi halus
+  - Deteksi otomatis preferensi sistem (`prefers-color-scheme`)
+  - Tersimpan di `localStorage` tanpa efek flicker (FOUT) saat muat ulang
 - 📱 **Progressive Web App (PWA)**:
   - Dapat diinstal di Desktop (Chrome, Edge) & Mobile (Android, iOS)
   - Banner instalasi otomatis / pintasan layar utama

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
+import ThemeToggle from '@/components/ThemeToggle'
 import { CheckSquare, Lock, Mail, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react'
 
 export default function LoginPage() {
@@ -77,18 +78,23 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-100 via-indigo-50 to-slate-100">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
+    <main className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-100 via-indigo-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-200">
+      <div className="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 p-8 relative transition-colors">
+        {/* Top bar dengan ThemeToggle */}
+        <div className="absolute top-5 right-5">
+          <ThemeToggle />
+        </div>
+
         <div className="flex flex-col items-center mb-8">
-          <div className="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200 mb-3">
+          <div className="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200 dark:shadow-indigo-900/40 mb-3">
             <CheckSquare className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-800">Selamat Datang Kembali</h1>
-          <p className="text-sm text-slate-500 mt-1">Masuk untuk mengelola Todo List Anda</p>
+          <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Selamat Datang Kembali</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Masuk untuk mengelola Todo List Anda</p>
         </div>
 
         {errorMsg && (
-          <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 flex items-start gap-3 text-rose-700 text-sm">
+          <div className="mb-6 p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 flex items-start gap-3 text-rose-700 dark:text-rose-300 text-sm">
             <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
             <span>{errorMsg}</span>
           </div>
@@ -99,10 +105,10 @@ export default function LoginPage() {
           type="button"
           onClick={handleGoogleSignIn}
           disabled={googleLoading || loading}
-          className="w-full py-2.5 px-4 mb-5 border border-slate-200 hover:border-slate-300 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm transition flex items-center justify-center gap-3 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full py-2.5 px-4 mb-5 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 font-semibold text-sm transition flex items-center justify-center gap-3 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {googleLoading ? (
-            <Loader2 className="w-5 h-5 animate-spin text-slate-500" />
+            <Loader2 className="w-5 h-5 animate-spin text-slate-500 dark:text-slate-400" />
           ) : (
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -127,20 +133,20 @@ export default function LoginPage() {
         </button>
 
         <div className="flex items-center my-5">
-          <div className="flex-1 border-t border-slate-200" />
-          <span className="px-3 text-xs uppercase tracking-wider text-slate-400 bg-white font-medium">
+          <div className="flex-1 border-t border-slate-200 dark:border-slate-800" />
+          <span className="px-3 text-xs uppercase tracking-wider text-slate-400 dark:text-slate-500 bg-white dark:bg-slate-900 font-medium">
             atau dengan email
           </span>
-          <div className="flex-1 border-t border-slate-200" />
+          <div className="flex-1 border-t border-slate-200 dark:border-slate-800" />
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="email">
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="email">
               Alamat Email
             </label>
             <div className="relative">
-              <Mail className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Mail className="w-5 h-5 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 id="email"
                 type="email"
@@ -148,17 +154,17 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="nama@email.com"
-                className="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-slate-800 text-sm transition"
+                className="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-slate-800 dark:text-slate-100 text-sm transition placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="password">
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="password">
               Kata Sandi
             </label>
             <div className="relative">
-              <Lock className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Lock className="w-5 h-5 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
@@ -166,12 +172,12 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-11 pr-11 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-slate-800 text-sm transition"
+                className="w-full pl-11 pr-11 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-slate-800 dark:text-slate-100 text-sm transition placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition"
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
@@ -181,7 +187,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading || googleLoading}
-            className="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-lg shadow-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+            className="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-lg shadow-indigo-200 dark:shadow-indigo-900/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
           >
             {loading ? (
               <>
@@ -194,9 +200,9 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-slate-100 text-center text-sm text-slate-600">
+        <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center text-sm text-slate-600 dark:text-slate-400">
           Belum punya akun?{' '}
-          <Link href="/signup" className="font-semibold text-indigo-600 hover:text-indigo-700 transition">
+          <Link href="/signup" className="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition">
             Daftar sekarang
           </Link>
         </div>
