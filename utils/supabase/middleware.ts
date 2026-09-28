@@ -10,6 +10,7 @@ export async function updateSession(request: NextRequest) {
 
   // Jangan intersep aset PWA dan static
   if (
+    path === '/api/webhooks/lynk' ||
     path === '/sw.js' ||
     path === '/manifest.webmanifest' ||
     path.startsWith('/icons/') ||

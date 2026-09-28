@@ -37,6 +37,7 @@ Aplikasi Todo List modern dan responsif yang dibangun menggunakan **Next.js 16 (
   - Tab Filter: *Semua*, *Aktif*, dan *Selesai*
   - Pencarian tugas secara real-time
 - 🛡️ **Row Level Security (RLS)**: Setiap user hanya dapat melihat dan memodifikasi data todo miliknya sendiri.
+- 💳 **Lynk.id Webhook**: Verifikasi signature transaksi, simpan order secara idempoten, dan lindungi tabel dengan RLS.
 
 ---
 
@@ -80,6 +81,22 @@ CREATE POLICY "Users can delete their own todos"
 ```
 
 4. Klik **Run**.
+
+### Menyiapkan Lynk.id Webhook
+
+1. Jalankan bagian `LYNK.ID WEBHOOK ORDERS` dari `supabase/schema.sql` di SQL Editor. Tabel `lynk_orders` tidak memiliki policy RLS; endpoint menggunakan service role key khusus server.
+2. Daftarkan URL `https://domainkamu.com/api/webhooks/lynk` di dashboard Lynk.id. Setelah disimpan, salin merchant key ke `.env.local` bersama kredensial server berikut:
+
+  ```env
+  LYNK_MERCHANT_KEY=merchant_key_dari_dashboard
+  NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+  SUPABASE_SERVICE_ROLE_KEY=service_role_key_dari_supabase
+  ```
+
+  Jangan gunakan awalan `NEXT_PUBLIC_` untuk service role key dan jangan commit key tersebut.
+3. Saat pengembangan lokal, expose server melalui ngrok atau Cloudflare Tunnel lalu daftarkan URL publik dengan path `/api/webhooks/lynk`.
+
+Endpoint memverifikasi `X-Lynk-Signature` dengan SHA-256 dari gabungan `grandTotal + refId + message_id + LYNK_MERCHANT_KEY`. Payload menerima field pada `data.message_data.refId`, `data.message_data.totals.grandTotal`, dan `data.message_id`, atau versi root `refId`, `grandTotal`, dan `message_id`. `message_id` unik membuat pengiriman ulang dibalas sukses tanpa menyimpan transaksi duplikat.
 
 ---
 

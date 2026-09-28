@@ -62,3 +62,18 @@ CREATE POLICY "Users can delete their own todo images"
     bucket_id = 'todo-images' AND 
     auth.uid()::text = (storage.foldername(name))[1]
   );
+
+-- ================================================================
+-- LYNK.ID WEBHOOK ORDERS
+-- ================================================================
+
+CREATE TABLE IF NOT EXISTS public.lynk_orders (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  message_id TEXT UNIQUE NOT NULL,
+  ref_id TEXT NOT NULL,
+  amount NUMERIC NOT NULL,
+  raw_payload JSONB,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE public.lynk_orders ENABLE ROW LEVEL SECURITY;
